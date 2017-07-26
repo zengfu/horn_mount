@@ -355,7 +355,7 @@ void LteTask()
     while(!(lte.status&LTE_INIT_MASK))
     {
       if(CheckAT())
-        osDelay(1000);
+        osDelay(10);
       else
         lte.status=LTE_INIT_MASK;
     }

@@ -35,6 +35,7 @@ void ReadEvent(uint8_t* data);
 void LteStatus(uint8_t* pdata);
 void GetCar(uint8_t* data);
 void SetCar(uint8_t* data);
+void SetCamera(uint8_t* data);
 
 #define GetVersionId 0X0000
 #define SetAccelId   0x0001
@@ -49,6 +50,8 @@ void SetCar(uint8_t* data);
 
 #define ReadEventId  0x0020
 #define LogInfoId    0x0030
+
+#define SetCameraId  0x0040
 
 #define AckFrame     0xEEFF
 #define NackFrame    0xFFEE
@@ -65,6 +68,7 @@ const FuncTypeDef S2lFunc[]={
   {ReadEventId,ReadEvent},
   {LteStatusId,LteStatus},
   {SetCarId,SetCar},
+  {SetCameraId,SetCamera},
 };
 __root const uint8_t version@flash_begin=1;
 
@@ -110,7 +114,18 @@ void LteStatus(uint8_t* pdata)
 extern osThreadId lteHandle;
 extern osThreadId eventhandleHandle;
 //extern osThreadId s2lhandleHandle;
+void SetCamera(uint8_t* data)
+{
+  /*
+#define CAMERA_DRIVE 0X01
+#define CAMERA_SECURE 0X02
 
+#define CAMERA_ON 0X01
+#define CAMERA_OFF 0x02*/
+  uint8_t err=0;
+  memcpy(&camera,data+8,2);
+  DumpFrame(&err,InfoFrame,1);
+}
 void SetCar(uint8_t* data)
 {
   memcpy(&car,data+8,2);

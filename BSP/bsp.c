@@ -34,6 +34,8 @@ static void ExtiCtrl(uint8_t cmd);
 
 
 CarTypeDef car;
+CameraTypeDef camera;
+
 
 void BspInit()
 {
@@ -41,10 +43,10 @@ void BspInit()
   LteCtrl(0);
   memset(&car,0,sizeof(car));
   //car.reserve=0x55;
-  //car.mw=1;
   //SaveCarStatus();
   memset(&car,0,sizeof(car));
   LoadCarStatus();
+  //car.front_ir=1;
   car.reserve=0x55;
   //car.mw=1;
   //BreathCtrl(1);
@@ -52,7 +54,7 @@ void BspInit()
   ExtiCtrl(0);
   Lis3dxInit();
   //afterir todo
-  LteCtrl(car.lte);
+  //LteCtrl(car.lte);
   GIrCtrl(car.front_ir);
   MwCtrl(car.mw);
   LogoCtrl(car.logo);
@@ -60,9 +62,10 @@ void BspInit()
   //active 
   //plan
   ExtiCtrl(1);
-  
+  BreathCtrl(1);
 #ifdef LTE_ZTE
   LteInit();
+  //PIrCtrl(1);
 #endif
 }
 
@@ -237,8 +240,13 @@ static void LteInit()
   HAL_GPIO_WritePin(LTE_CLOSE_PORT,LTE_CLOSE,GPIO_PIN_RESET);//close
 #else
   HAL_GPIO_WritePin(LTE_CLOSE_PORT,LTE_CLOSE,GPIO_PIN_RESET);//close
-  HAL_GPIO_WritePin(LTE_WAKEUP_PORT,LTE_WAKEUP_PIN,GPIO_PIN_RESET);//AUTO SLEEP
+  HAL_GPIO_WritePin(LTE_WAKEUP_PORT,LTE_WAKEUP_PIN,GPIO_PIN_SET);//AUTO SLEEP
   HAL_GPIO_WritePin(LTE_RESET_PORT,LTE_RESET,GPIO_PIN_SET);//NO RESET
+  //HAL_Delay(1000);
+//  for(int i=0;i<500000000;i++){
+//  
+//  }
+//  HAL_GPIO_WritePin(LTE_WAKEUP_PORT,LTE_WAKEUP_PIN,GPIO_PIN_RESET);//AUTO SLEEP
 #endif
   
 }
@@ -300,7 +308,8 @@ void PowerS2l(uint8_t in)
 }
 void PIrCtrl(uint8_t cmd)
 {
-  HAL_GPIO_WritePin(P_IR_EN_PORT,P_IR_EN,(GPIO_PinState)cmd);//close
+  //HAL_GPIO_WritePin(P_IR_EN_PORT,P_IR_EN,(GPIO_PinState)cmd);//close
+  HAL_GPIO_WritePin(ON_OFF_PORT,ON_OFF,(GPIO_PinState)cmd);//close
 }
 
 void GIrCtrl(uint8_t cmd)

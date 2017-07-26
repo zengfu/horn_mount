@@ -33,7 +33,7 @@ void EventTask()
    
     if(event.evt==EvtAccel1)
     {
-      //AccelEventHandle(&event);
+      AccelEventHandle(&event);
     }
     else if(event.evt==EvtMicroWave)
     {

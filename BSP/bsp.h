@@ -32,6 +32,19 @@ typedef struct
 }CarTypeDef;
 
 
+#define CAMERA_DRIVE 0X01
+#define CAMERA_SECURE 0X02
+
+#define CAMERA_ON 0X01
+#define CAMERA_OFF 0x02
+
+
+typedef struct{
+  uint8_t camera_mode;
+  uint8_t camera_status;
+}CameraTypeDef;
+
+
 
 void ReInitLuart();
 void LteOpen();
@@ -64,7 +77,7 @@ void LoadCarStatus();
 void SaveCarStatus();
 
 extern CarTypeDef car;
- 
+extern CameraTypeDef camera;
 
 
 #endif
